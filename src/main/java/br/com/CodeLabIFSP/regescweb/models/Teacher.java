@@ -1,0 +1,68 @@
+package br.com.CodeLabIFSP.regescweb.models;
+
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+
+
+@Entity
+public class Teacher {
+    @Id
+    private long id;
+    @Column(nullable = false)
+    private String name;
+    private BigDecimal salary;
+    @Enumerated(EnumType.STRING)
+    private TeacherStatus status;
+
+
+    public Teacher() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+
+
+    public TeacherStatus getStatus() {
+        return status;
+    }
+
+
+    public void setStatus(TeacherStatus status) {
+        this.status = status;
+    }
+
+    
+}
+
