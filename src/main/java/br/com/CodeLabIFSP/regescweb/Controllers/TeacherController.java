@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,25 +37,27 @@ public class TeacherController {
     @GetMapping("/teachers/new")
     public ModelAndView nnew() {
 
-        ModelAndView mv = new ModelAndView("teachers/new.html");
+        ModelAndView mv = new ModelAndView("teachers/new");
         mv.addObject("teacherStatus", TeacherStatus.values());
 
         return mv;
     }
 
     @PostMapping("/teachers")
-    public String create(@Valid NewTeacherRequisition requisition, BindingResult result) {
+    public ModelAndView create(@ModelAttribute @Valid NewTeacherRequisition requisition, BindingResult result) {
 
         if(result.hasErrors()){
 
-            return "redirect:/teachers/new";
+            ModelAndView mv = new ModelAndView("teachers/new");
+            mv.addObject("teacherStatus", TeacherStatus.values());
+            return mv;
         }
         else {
 
             Teacher teacher = requisition.toTeacher();
             this.teacherRepository.save(teacher);
     
-            return "redirect:/teachers";
+            return new ModelAndView("redirect:/teachers");
         }
     }
 }

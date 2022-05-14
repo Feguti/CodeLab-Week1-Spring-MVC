@@ -19,7 +19,6 @@ public class NewTeacherRequisition {
     @DecimalMin(value="0.0", inclusive=false)
     private BigDecimal salary;
 
-
     public String getName() {
         return name;
     }
