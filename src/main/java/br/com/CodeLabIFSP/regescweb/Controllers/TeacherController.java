@@ -2,6 +2,8 @@ package br.com.CodeLabIFSP.regescweb.Controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import br.com.CodeLabIFSP.regescweb.dto.NewTeacherRequisition;
 import br.com.CodeLabIFSP.regescweb.models.Teacher;
 import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
@@ -9,6 +11,7 @@ import br.com.CodeLabIFSP.regescweb.repositories.TeacherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,11 +43,18 @@ public class TeacherController {
     }
 
     @PostMapping("/teachers")
-    public String create(NewTeacherRequisition requisition) {
+    public String create(@Valid NewTeacherRequisition requisition, BindingResult result) {
 
-        Teacher teacher = requisition.toTeacher();
-        this.teacherRepository.save(teacher);
+        if(result.hasErrors()){
 
-        return "redirect:/teachers";
+            return "redirect:/teachers/new";
+        }
+        else {
+
+            Teacher teacher = requisition.toTeacher();
+            this.teacherRepository.save(teacher);
+    
+            return "redirect:/teachers";
+        }
     }
 }

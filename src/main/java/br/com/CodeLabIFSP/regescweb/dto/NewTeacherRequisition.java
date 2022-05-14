@@ -2,13 +2,21 @@ package br.com.CodeLabIFSP.regescweb.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import br.com.CodeLabIFSP.regescweb.models.Teacher;
 import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
 
 public class NewTeacherRequisition {
 
+    @NotBlank
+    @NotNull
     private String name;
     private TeacherStatus status;
+    @NotNull
+    @DecimalMin(value="0.0", inclusive=false)
     private BigDecimal salary;
 
 
