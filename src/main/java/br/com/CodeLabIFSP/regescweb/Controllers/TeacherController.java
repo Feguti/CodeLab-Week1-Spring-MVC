@@ -3,6 +3,7 @@ package br.com.CodeLabIFSP.regescweb.Controllers;
 import java.util.List;
 
 import br.com.CodeLabIFSP.regescweb.models.Teacher;
+import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
 import br.com.CodeLabIFSP.regescweb.repositories.TeacherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,14 @@ public class TeacherController {
         mv.addObject("teachers", teachers);
 
         return mv; 
+    }
+
+    @GetMapping("/teachers/new")
+    public ModelAndView nnew() {
+
+        ModelAndView mv = new ModelAndView("teachers/new.html");
+        mv.addObject("teacherStatus", TeacherStatus.values());
+
+        return mv;
     }
 }
