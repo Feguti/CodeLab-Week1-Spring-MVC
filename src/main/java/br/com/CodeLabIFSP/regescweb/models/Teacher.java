@@ -6,12 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
 @Entity
 public class Teacher {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private String name;
@@ -20,14 +23,17 @@ public class Teacher {
     private TeacherStatus status;
 
 
-    public Teacher() {
+    public Teacher() { }
 
+    public Teacher(String name, BigDecimal salary, TeacherStatus status) {
+        this.name = name;
+        this.salary = salary;
+        this.status = status;
     }
 
     public long getId() {
         return id;
     }
-
 
     public void setId(long id) {
         this.id = id;
