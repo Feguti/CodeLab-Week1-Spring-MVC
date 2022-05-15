@@ -53,6 +53,13 @@ public class FormTeacherRequisition {
         return teacher;
     }
 
+    public Teacher toTeacher(Teacher teacher) {
+        teacher.setName(this.name);
+        teacher.setSalary(this.salary);
+        teacher.setStatus(this.status);
+        return teacher;
+    }
+
     public void fromTeacher(Teacher teacher) {
         this.name = teacher.getName();
         this.salary = teacher.getSalary();

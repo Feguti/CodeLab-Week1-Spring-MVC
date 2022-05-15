@@ -87,7 +87,7 @@ public class TeacherController {
         Optional<Teacher> optional = this.teacherRepository.findById(id);
 
         if (optional.isPresent()) {
-            
+
             Teacher teacher = optional.get();
             requisition.fromTeacher(teacher);
 
@@ -101,6 +101,35 @@ public class TeacherController {
         } else {
 
             return new ModelAndView("redirect:/teachers");
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ModelAndView update(@PathVariable long id, @Valid FormTeacherRequisition requisition, BindingResult result) {
+
+        if (result.hasErrors()) {
+
+            ModelAndView mv = new ModelAndView("teachers/edit");
+            mv.addObject("teacherID", id);
+            mv.addObject("TeacherStatusList", TeacherStatus.values());
+            return mv;
+
+        } else {
+
+            Optional<Teacher> optional = this.teacherRepository.findById(id);
+
+            if (optional.isPresent()) {
+
+                Teacher teacher = requisition.toTeacher(optional.get());
+                this.teacherRepository.save(teacher);
+
+                return new ModelAndView("redirect:/teachers/" + teacher.getId());
+
+            }
+            else {
+
+                return new ModelAndView("redirect:/teachers");
+            }
         }
     }
 }
