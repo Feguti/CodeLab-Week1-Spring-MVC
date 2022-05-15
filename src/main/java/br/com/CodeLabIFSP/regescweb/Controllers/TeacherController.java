@@ -78,7 +78,7 @@ public class TeacherController {
             return mv;
         } else {
 
-            return new ModelAndView("redirect:/teachers");
+            return this.returnTeacherError("SHOW ERROR  Teacher #" + id + "not found.");
         }
     }
 
@@ -101,7 +101,7 @@ public class TeacherController {
 
         } else {
 
-            return new ModelAndView("redirect:/teachers");
+            return this.returnTeacherError("EDIT ERROR  Teacher #" + id + "not found.");
         }
     }
 
@@ -129,21 +129,31 @@ public class TeacherController {
             }
             else {
 
-                return new ModelAndView("redirect:/teachers");
+                return this.returnTeacherError("UPDATE ERROR  Teacher #" + id + "not found.");
             }
         }
     }
 
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
+        ModelAndView mv = new ModelAndView("redirect:/teachers");
 
         try {
             this.teacherRepository.deleteById(id);
-            return "redirect:/teachers";
+            mv.addObject("message", "Teacher #" + id + "successfully removed.");
+            mv.addObject("error", false);
         }
         catch (EmptyResultDataAccessException e) {
-            return "redirect:/teachers";
+            mv = this.returnTeacherError("DELETE ERROR  Teacher #" + id + "not found.");
         }
+        return mv;
+    }
+
+    private ModelAndView returnTeacherError(String msg) {
+        ModelAndView mv = new ModelAndView("redirect:/teachers");
+        mv.addObject("message", msg);
+        mv.addObject("error", true);
+        return mv;
     }
     
 }
