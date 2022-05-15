@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <a href="#">Edit</a> <a href="/teachers">Return</a>
+                    <a th:href="@{/teachers/{teacherID}/edit(teacherID = ${teacher.id})}">Edit</a> <a href="/teachers">Return</a>
                 </div>
             </div>
         </div>

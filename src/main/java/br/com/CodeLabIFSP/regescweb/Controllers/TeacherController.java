@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import br.com.CodeLabIFSP.regescweb.dto.NewTeacherRequisition;
+import br.com.CodeLabIFSP.regescweb.dto.FormTeacherRequisition;
 import br.com.CodeLabIFSP.regescweb.models.Teacher;
 import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
 import br.com.CodeLabIFSP.regescweb.repositories.TeacherRepository;
@@ -16,14 +16,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/teachers")
 public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    @GetMapping("/teachers")
+    @GetMapping("")
     public ModelAndView index() {
 
         List<Teacher> teachers = this.teacherRepository.findAll();
@@ -34,8 +36,8 @@ public class TeacherController {
         return mv;
     }
 
-    @GetMapping("/teachers/new")
-    public ModelAndView nnew(NewTeacherRequisition requisition) {
+    @GetMapping("/new")
+    public ModelAndView nnew(FormTeacherRequisition requisition) {
 
         ModelAndView mv = new ModelAndView("teachers/new");
         mv.addObject("TeacherStatusList", TeacherStatus.values());
@@ -43,8 +45,8 @@ public class TeacherController {
         return mv;
     }
 
-    @PostMapping("/teachers")
-    public ModelAndView create(@Valid NewTeacherRequisition requisition, BindingResult result) {
+    @PostMapping("")
+    public ModelAndView create(@Valid FormTeacherRequisition requisition, BindingResult result) {
 
         if (result.hasErrors()) {
 
@@ -60,12 +62,12 @@ public class TeacherController {
         }
     }
 
-    @GetMapping("/teachers/{id}")
+    @GetMapping("/{id}")
     public ModelAndView show(@PathVariable long id) {
-        
+
         Optional<Teacher> optional = this.teacherRepository.findById(id);
 
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
 
             Teacher teacher = optional.get();
 
@@ -73,9 +75,30 @@ public class TeacherController {
             mv.addObject("teacher", teacher);
 
             return mv;
+        } else {
 
+            return new ModelAndView("redirect:/teachers");
         }
-        else {
+    }
+
+    @GetMapping("/{id}/edit")
+    public ModelAndView edit(@PathVariable long id, FormTeacherRequisition requisition) {
+
+        Optional<Teacher> optional = this.teacherRepository.findById(id);
+
+        if (optional.isPresent()) {
+            
+            Teacher teacher = optional.get();
+            requisition.fromTeacher(teacher);
+
+            ModelAndView mv = new ModelAndView("teachers/edit");
+
+            mv.addObject("teacherID", teacher.getId());
+            mv.addObject("TeacherStatusList", TeacherStatus.values());
+
+            return mv;
+
+        } else {
 
             return new ModelAndView("redirect:/teachers");
         }

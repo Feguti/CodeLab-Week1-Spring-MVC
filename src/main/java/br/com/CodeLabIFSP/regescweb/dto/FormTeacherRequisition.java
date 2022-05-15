@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import br.com.CodeLabIFSP.regescweb.models.Teacher;
 import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
 
-public class NewTeacherRequisition {
+public class FormTeacherRequisition {
 
     @NotBlank
     @NotNull
@@ -51,6 +51,12 @@ public class NewTeacherRequisition {
         teacher.setStatus(this.status);
 
         return teacher;
+    }
+
+    public void fromTeacher(Teacher teacher) {
+        this.name = teacher.getName();
+        this.salary = teacher.getSalary();
+        this.status = teacher.getStatus();
     }
 
     @Override
