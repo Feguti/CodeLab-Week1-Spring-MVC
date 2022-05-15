@@ -1,6 +1,7 @@
 package br.com.CodeLabIFSP.regescweb.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,6 +55,27 @@ public class TeacherController {
 
             Teacher teacher = requisition.toTeacher();
             this.teacherRepository.save(teacher);
+
+            return new ModelAndView("redirect:/teachers/" + teacher.getId());
+        }
+    }
+
+    @GetMapping("/teachers/{id}")
+    public ModelAndView show(@PathVariable long id) {
+        
+        Optional<Teacher> optional = this.teacherRepository.findById(id);
+
+        if(optional.isPresent()) {
+
+            Teacher teacher = optional.get();
+
+            ModelAndView mv = new ModelAndView("teachers/show");
+            mv.addObject("teacher", teacher);
+
+            return mv;
+
+        }
+        else {
 
             return new ModelAndView("redirect:/teachers");
         }
