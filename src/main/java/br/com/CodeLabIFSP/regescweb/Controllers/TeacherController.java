@@ -11,6 +11,7 @@ import br.com.CodeLabIFSP.regescweb.models.TeacherStatus;
 import br.com.CodeLabIFSP.regescweb.repositories.TeacherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -132,4 +133,17 @@ public class TeacherController {
             }
         }
     }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable long id) {
+
+        try {
+            this.teacherRepository.deleteById(id);
+            return "redirect:/teachers";
+        }
+        catch (EmptyResultDataAccessException e) {
+            return "redirect:/teachers";
+        }
+    }
+    
 }

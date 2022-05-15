@@ -27,7 +27,7 @@
                         <td class="col-2" th:text="${teacher.status.toString()}">STATUS</td>
                         <td class="col-1"><a th:href="@{/teachers/{teacherID}(teacherID = ${teacher.id})}">Details</a></td>
                         <td class="col-1"><a th:href="@{/teachers/{teacherID}/edit(teacherID = ${teacher.id})}">Edit</a></td>
-                        <td class="col-1"><a href="#">Delete</a></td>
+                        <td class="col-1"><a th:href="@{/teachers/{teacherID}/delete(teacherID = ${teacher.id})}">Delete</a></td>
                     </tr>
                 </tbody>
             </table>
