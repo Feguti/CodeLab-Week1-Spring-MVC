@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
 public class TeacherController {
-    @Autowired   
+    @Autowired
     private TeacherRepository teacherRepository;
 
     @GetMapping("/teachers")
@@ -30,7 +29,7 @@ public class TeacherController {
         ModelAndView mv = new ModelAndView("teachers/index.html");
         mv.addObject("teachers", teachers);
 
-        return mv; 
+        return mv;
     }
 
     @GetMapping("/teachers/new")
@@ -45,17 +44,16 @@ public class TeacherController {
     @PostMapping("/teachers")
     public ModelAndView create(@Valid NewTeacherRequisition requisition, BindingResult result) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
 
             ModelAndView mv = new ModelAndView("teachers/new");
             mv.addObject("TeacherStatusList", TeacherStatus.values());
             return mv;
-        }
-        else {
+        } else {
 
             Teacher teacher = requisition.toTeacher();
             this.teacherRepository.save(teacher);
-    
+
             return new ModelAndView("redirect:/teachers");
         }
     }
